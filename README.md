@@ -8,24 +8,24 @@ O **SmartRoute** é uma aplicação web de ponta focada em calcular a rota mais 
 
 Tudo isso envelopado em uma Interface de Usuário (UI) *Premium* com design Glassmorphism, aceleração de hardware e animações cinematográficas (FLIP animations) para uma experiência de navegação (UX) fluida e imersiva.
 
-## Principais Funcionalidades
+## 🚀 Principais Funcionalidades
 
-- **Cálculo de Rota Ótima**: Usa o **Algoritmo de Dijkstra** para encontrar o caminho com o menor custo (Combustível + Pedágio).
+- **Cálculo de Rota Ótima**: Usa o **Algoritmo de Dijkstra** para encontrar o caminho com o menor custo financeiro total (Combustível + Pedágio).
 - **Suporte a Paradas (Waypoints)**: Permite adicionar uma cidade como parada obrigatória, recalculando e unindo as rotas automaticamente.
 - **Integração com GPS**: Exporta a rota calculada diretamente para o **Google Maps** ou **Waze** com apenas um clique.
 - **Interface Dashboard (Tela Cheia)**: Um modo imersivo que transforma o mapa em um painel interativo (Dashboard), com painéis de vidro retráteis (Drawers) totalmente fluidos.
 - **Mapa Interativo (Leaflet)**: Navegação espacial moderna com visualização escura (Dark Mode) focada no contraste de rotas.
 
-## Tecnologias e Arquitetura
+## 🏗 Tecnologias e Arquitetura
 
-O projeto foi construído puramente com **Vanilla JavaScript** focado em performance extrema, sem depender de frameworks pesados para reatividade, priorizando acesso direto ao DOM e aceleração por placa de vídeo (GPU).
+O projeto foi construído puramente com **Vanilla JavaScript (ESM)** focado em performance extrema e modularidade rigorosa, sem depender de frameworks pesados para reatividade, priorizando acesso direto ao DOM e aceleração por GPU.
 
-- **Core**: HTML5, CSS3 (Variáveis, Flexbox, Animações Avançadas), JavaScript (ES6+).
-- **Bundler**: [Vite](https://vitejs.dev/) (Para Hot-Module-Replacement rápido e build otimizado).
+- **Core**: HTML5, CSS3 (Variáveis, Flexbox, Animações Avançadas), JavaScript (ES6+ Modular).
+- **Bundler**: [Vite](https://vitejs.dev/) (Para Hot-Module-Replacement rápido e build otimizado para produção).
 - **Mapas**: [Leaflet.js](https://leafletjs.com/) utilizando os mapas renderizados da CARTO (Dark Matter).
 - **Estruturas de Dados**: Implementação pura de **Grafos** (Lista de Adjacência) e **Min-Heap** (Fila de Prioridade) para o algoritmo de Dijkstra.
 
-## Instalação e Execução
+## 📦 Instalação e Execução
 
 Para rodar o projeto localmente, certifique-se de ter o [Node.js](https://nodejs.org/) instalado.
 
@@ -45,10 +45,17 @@ Para rodar o projeto localmente, certifique-se de ter o [Node.js](https://nodejs
    npm run dev
    ```
 
-4. Abra o navegador no endereço exibido no terminal (geralmente `http://localhost:5173/`).
+4. Para compilar para produção (MVP):
+   ```bash
+   npm run build
+   ```
 
-## Destaques de Design e UX
+## 💎 Destaques de Design e UX
 
 - **Glassmorphism UI**: Painéis translúcidos baseados em *Backdrop Filters* simulando vidro fosco.
-- **FLIP Animations**: As transições de tela cheia do mapa não são apenas trocas de classe CSS; elas utilizam a técnica *First, Last, Invert, Play* no JavaScript para garantir que o mapa expanda com curva bézier `cubic-bezier(0.16, 1, 0.3, 1)` perfeitamente alinhada.
-- **Zero Jitter / Zero Lag**: Elementos que se movem muito usam `will-change: transform` e `translateZ(0)` para repassar o processamento para a GPU (Aceleração de Hardware).
+- **FLIP Animations**: As transições de tela cheia do mapa utilizam a técnica *First, Last, Invert, Play* nativa no JavaScript para garantir que o elemento se expanda perfeitamente com 60FPS.
+- **Drag-to-Scroll Momentum**: Scroll horizontal do timeline (resultado da viagem) imita a física de atrito para deslizar suavemente.
+- **Zero Jitter / Zero Lag**: Elementos que se movem muito usam `will-change: transform` para repassar o processamento para a GPU (Aceleração de Hardware).
+
+## 📄 Documentação Técnica
+Para informações aprofundadas sobre a arquitetura do projeto e o funcionamento de cada módulo, consulte a [Documentação do Projeto](./DOCUMENTATION.md).
