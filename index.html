@@ -31,23 +31,33 @@
             <div class="pill vertical-pill"></div>
           </div>
           <div class="drawer-content">
-            <form id="route-form">
+            <form id="route-form" novalidate>
               <div class="input-group">
                 <label for="origin">Capital de Origem</label>
-                <input type="text" id="origin" list="capitals-list" placeholder="Selecione a origem..." required autocomplete="off">
+                <div class="input-wrapper autocomplete-wrapper">
+                  <input type="text" id="origin" class="autocomplete-input" placeholder="Selecione a origem..." required autocomplete="off">
+                  <i class="fa-solid fa-chevron-down custom-dropdown-arrow"></i>
+                </div>
               </div>
 
               <div class="input-group">
                 <label for="waypoint">Parada Obrigatória (Opcional)</label>
-                <input type="text" id="waypoint" list="capitals-list" placeholder="Ex: Goiânia" autocomplete="off">
+                <div class="input-wrapper autocomplete-wrapper">
+                  <input type="text" id="waypoint" class="autocomplete-input" placeholder="Ex: Goiânia" autocomplete="off">
+                  <i class="fa-solid fa-chevron-down custom-dropdown-arrow"></i>
+                  <button type="button" class="clear-input" onclick="window.clearWaypoint()" title="Limpar parada">
+                    <i class="fa-solid fa-xmark"></i>
+                  </button>
+                </div>
               </div>
 
               <div class="input-group">
                 <label for="destination">Capital de Destino</label>
-                <input type="text" id="destination" list="capitals-list" placeholder="Selecione o destino..." required autocomplete="off">
+                <div class="input-wrapper autocomplete-wrapper">
+                  <input type="text" id="destination" class="autocomplete-input" placeholder="Selecione o destino..." required autocomplete="off">
+                  <i class="fa-solid fa-chevron-down custom-dropdown-arrow"></i>
+                </div>
               </div>
-
-              <datalist id="capitals-list"></datalist>
 
               <div class="row">
                 <div class="input-group half">
@@ -80,37 +90,41 @@
       <div class="drawer-notch bottom-notch" id="notch-bottom">
         <div class="pill horizontal-pill"></div>
       </div>
-      <div class="drawer-content">
-        <h2>Resultado da Viagem</h2>
-        <div class="summary-cards">
-          <div class="summary-card">
-            <span class="label">Custo Total</span>
-            <span class="value" id="res-total-cost">R$ 0,00</span>
+      <div class="drawer-content horizontal-dashboard">
+        
+        <div class="dashboard-header">
+          <div class="dashboard-title-group">
+            <h2>Resultado da Viagem</h2>
+            <div class="gps-actions hidden" id="gps-actions">
+              <div class="gps-buttons">
+                <a id="btn-gmaps" href="#" target="_blank" class="btn-gps btn-gmaps">
+                  <i class="fa-brands fa-google"></i> Google Maps
+                </a>
+                <a id="btn-waze" href="#" target="_blank" class="btn-gps btn-waze">
+                  <i class="fa-brands fa-waze"></i> Waze
+                </a>
+              </div>
+            </div>
           </div>
-          <div class="summary-card">
-            <span class="label">Distância</span>
-            <span class="value" id="res-distance">0 km</span>
-          </div>
-        </div>
-
-        <div class="gps-actions hidden" id="gps-actions">
-          <h3>Abrir no GPS</h3>
-          <div class="gps-buttons">
-            <a id="btn-gmaps" href="#" target="_blank" class="btn-gps btn-gmaps">
-              <i class="fa-brands fa-google"></i> Google Maps
-            </a>
-            <a id="btn-waze" href="#" target="_blank" class="btn-gps btn-waze">
-              <i class="fa-brands fa-waze"></i> Waze
-            </a>
+          
+          <div class="summary-cards">
+            <div class="summary-card">
+              <span class="label">Custo Total</span>
+              <span class="value" id="res-total-cost">R$ 0,00</span>
+            </div>
+            <div class="summary-card">
+              <span class="label">Distância</span>
+              <span class="value" id="res-distance">0 km</span>
+            </div>
           </div>
         </div>
         
-        <div class="route-details">
-          <h3>Rota Detalhada</h3>
-          <ul id="route-steps">
+        <div class="dashboard-body route-details">
+          <ul id="route-steps" class="horizontal-timeline">
             <!-- Populated by JS -->
           </ul>
         </div>
+
       </div>
     </aside>
   </main>

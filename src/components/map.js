@@ -7,7 +7,7 @@ export class RouteMap {
       attributionControl: false
     }).setView([-14.235, -51.925], 4);
     
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
       subdomains: 'abcd',
       maxZoom: 20
@@ -17,7 +17,34 @@ export class RouteMap {
     this.currentRouteLine = null;
     this.addCityMarkers();
     this.addFullscreenControl();
-  }  addFullscreenControl() {
+    this.initLoadingOverlay(containerId);
+  }
+
+  initLoadingOverlay(containerId) {
+    const mapEl = document.getElementById(containerId);
+    this.loadingEl = document.createElement('div');
+    this.loadingEl.id = 'map-loading';
+    this.loadingEl.className = 'map-loading-overlay hidden';
+    this.loadingEl.innerHTML = `
+      <i class="fa-solid fa-spinner fa-spin fa-3x" style="color: var(--primary);"></i>
+      <p style="margin-top: 10px; font-weight: 600; color: var(--text-main);">Calculando Rota...</p>
+    `;
+    mapEl.appendChild(this.loadingEl);
+  }
+
+  showLoading() {
+    if (this.loadingEl) {
+      this.loadingEl.classList.remove('hidden');
+    }
+  }
+
+  hideLoading() {
+    if (this.loadingEl) {
+      this.loadingEl.classList.add('hidden');
+    }
+  }
+
+  addFullscreenControl() {
     const fullscreenControl = L.control({ position: 'topright' });
     fullscreenControl.onAdd = () => {
       const btn = L.DomUtil.create('button', 'leaflet-bar leaflet-control leaflet-control-custom');
@@ -129,7 +156,20 @@ export class RouteMap {
 
     for (const [city, coords] of Object.entries(capitalCoordinates)) {
       const marker = L.marker(coords, { icon: defaultIcon }).addTo(this.map);
+      
+      const popupContent = `
+        <div class="city-popup">
+          <h4>${city}</h4>
+          <div class="city-popup-actions">
+            <button class="popup-btn" onclick="window.setRouteCity('origin', '${city}')"><i class="fa-solid fa-location-dot"></i> Origem</button>
+            <button class="popup-btn" onclick="window.setRouteCity('waypoint', '${city}')"><i class="fa-solid fa-map-pin"></i> Parada</button>
+            <button class="popup-btn" onclick="window.setRouteCity('destination', '${city}')"><i class="fa-solid fa-flag-checkered"></i> Destino</button>
+          </div>
+        </div>
+      `;
+      
       marker.bindTooltip(city, { direction: 'right', offset: [5, 0], className: 'city-tooltip' });
+      marker.bindPopup(popupContent, { className: 'custom-popup', minWidth: 150 });
       this.markers[city] = marker;
     }
   }
