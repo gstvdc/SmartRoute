@@ -52,6 +52,3 @@ Para rodar o projeto localmente, certifique-se de ter o [Node.js](https://nodejs
 - **Glassmorphism UI**: Painéis translúcidos baseados em *Backdrop Filters* simulando vidro fosco.
 - **FLIP Animations**: As transições de tela cheia do mapa não são apenas trocas de classe CSS; elas utilizam a técnica *First, Last, Invert, Play* no JavaScript para garantir que o mapa expanda com curva bézier `cubic-bezier(0.16, 1, 0.3, 1)` perfeitamente alinhada.
 - **Zero Jitter / Zero Lag**: Elementos que se movem muito usam `will-change: transform` e `translateZ(0)` para repassar o processamento para a GPU (Aceleração de Hardware).
-
----
-Feito com codigo e cafe.
