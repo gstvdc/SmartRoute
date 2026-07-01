@@ -376,11 +376,16 @@ body.fullscreen-mode .horizontal-pill { width: 40px; height: 4px; }
 .dashboard-body.route-details {
   margin: 0;
   padding: 0.25rem 1.5rem 0.75rem 1.5rem;
-  background: rgba(12, 10, 9, 0.4);
+  background: transparent;
   border-radius: 0;
   border: none;
-  border-top: 1px solid var(--glass-border);
   flex: 1; /* allow it to grow in empty space */
+}
+
+body:not(.fullscreen-mode) .dashboard-body.route-details {
+  padding: 1.5rem 0 0 0;
+  margin-top: 1rem;
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
 }
 
 .dashboard-body.route-details h3 {
@@ -444,6 +449,135 @@ ul.horizontal-timeline::-webkit-scrollbar {
   margin-left: 0;
   width: 100%;
   margin-top: 10px;
+}
+
+/* --- VERTICAL LAYOUT FOR NON-FULLSCREEN MODE --- */
+body:not(.fullscreen-mode) .dashboard-header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: auto auto;
+  align-items: center;
+  gap: 1.5rem 1rem;
+  padding: 1rem 0.5rem;
+}
+body:not(.fullscreen-mode) .dashboard-title-group,
+body:not(.fullscreen-mode) .summary-cards {
+  display: contents;
+}
+body:not(.fullscreen-mode) .dashboard-title-group h2 {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  text-align: center;
+  position: static;
+  transform: none;
+  margin-bottom: 0.5rem;
+}
+body:not(.fullscreen-mode) .summary-card:nth-child(1) {
+  grid-column: 1;
+  grid-row: 2;
+  justify-self: end;
+}
+body:not(.fullscreen-mode) .gps-actions {
+  grid-column: 2;
+  grid-row: 2;
+  justify-self: center;
+}
+body:not(.fullscreen-mode) .summary-card:nth-child(2) {
+  grid-column: 3;
+  grid-row: 2;
+  justify-self: start;
+}
+body:not(.fullscreen-mode) .dashboard-header .summary-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: none;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  min-width: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+body:not(.fullscreen-mode) ul.horizontal-timeline {
+  flex-direction: column;
+  padding: 1rem 0 !important;
+  margin: 0 !important;
+  gap: 0;
+  overflow: visible;
+}
+
+body:not(.fullscreen-mode) .horizontal-timeline .timeline-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 1.5rem 30px; /* Space for the dot and vertical line */
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  min-width: auto;
+}
+
+/* Vertical dashed line */
+body:not(.fullscreen-mode) .horizontal-timeline .timeline-item::before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 6px;
+  top: 20px;
+  bottom: -6px;
+  width: 2px;
+  height: auto;
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 50%, transparent 50%);
+  background-size: 2px 8px; /* vertical dash */
+  background-repeat: repeat-y;
+}
+body:not(.fullscreen-mode) .horizontal-timeline .timeline-item:last-child::before {
+  display: none;
+}
+
+/* Timeline dot */
+body:not(.fullscreen-mode) .horizontal-timeline .timeline-dot {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 6px;
+  margin: 0;
+}
+
+/* Top half of the card (City info) */
+body:not(.fullscreen-mode) .horizontal-timeline .timeline-content {
+  background: transparent;
+  padding: 0;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  margin: 0;
+  width: 100%;
+}
+
+/* Bottom half of the card (Distance/Cost edge) */
+body:not(.fullscreen-mode) .horizontal-timeline .timeline-edge {
+  background: transparent;
+  padding: 0.5rem 0 0 0;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  margin: 0;
+  width: 100%;
+}
+
+/* Pill for the city name */
+body:not(.fullscreen-mode) .horizontal-timeline .city-name {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 10px;
+  font-size: 1rem;
+  color: #fff;
+  border-radius: 4px;
 }
 
 .leaflet-control-custom:hover {
@@ -830,8 +964,11 @@ body.fullscreen-mode .results-pane {
   display: flex;
   align-items: flex-start;
   gap: 1rem;
-  position: relative;
   z-index: 2;
+}
+
+body.fullscreen-mode .timeline-node {
+  position: relative;
 }
 
 .timeline-node:hover,
