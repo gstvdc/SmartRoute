@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartRoute - O Caminho Mais Barato</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="stylesheet" href="./src/assets/styles/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <video autoplay loop muted playsinline id="bg-video">
+    <source src="/assets/videos/background.mp4" type="video/mp4">
+  </video>
+  <div class="video-overlay"></div>
+  
+  <main class="app-container">
+    <header>
+      <img src="/assets/images/logo.png" alt="SmartRoute Logo" class="logo">
+      <p class="subtitle">Encontre o caminho mais barato entre capitais.</p>
+    </header>
+
+    <div class="content-wrapper">
+      <div class="left-panel">
+        <aside id="left-drawer" class="drawer left-drawer open glass-card">
+          <div class="drawer-notch left-notch" id="notch-left">
+            <div class="pill vertical-pill"></div>
+          </div>
+          <div class="drawer-content">
+            <form id="route-form">
+              <div class="input-group">
+                <label for="origin">Capital de Origem</label>
+                <input type="text" id="origin" list="capitals-list" placeholder="Selecione a origem..." required autocomplete="off">
+              </div>
+
+              <div class="input-group">
+                <label for="waypoint">Parada Obrigatória (Opcional)</label>
+                <input type="text" id="waypoint" list="capitals-list" placeholder="Ex: Goiânia" autocomplete="off">
+              </div>
+
+              <div class="input-group">
+                <label for="destination">Capital de Destino</label>
+                <input type="text" id="destination" list="capitals-list" placeholder="Selecione o destino..." required autocomplete="off">
+              </div>
+
+              <datalist id="capitals-list"></datalist>
+
+              <div class="row">
+                <div class="input-group half">
+                  <label for="fuel-price">Preço Combustível (R$/L)</label>
+                  <input type="text" id="fuel-price" inputmode="numeric" placeholder="0,00" required>
+                </div>
+                
+                <div class="input-group half">
+                  <label for="autonomy">Autonomia (Km/L)</label>
+                  <input type="number" id="autonomy" step="0.1" min="1" placeholder="Ex: 10.0" required>
+                </div>
+              </div>
+
+              <button type="submit" class="primary-btn">
+                <span>Calcular Rota</span>
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </button>
+            </form>
+          </div>
+        </aside>
+      </div>
+
+      <div class="right-panel">
+        <div id="map" class="glass-card"></div>
+      </div>
+    </div>
+
+    <!-- Bottom Results Pane (Turns into bottom-drawer on fullscreen) -->
+    <aside id="bottom-drawer" class="drawer bottom-drawer closed results-pane hidden glass-card">
+      <div class="drawer-notch bottom-notch" id="notch-bottom">
+        <div class="pill horizontal-pill"></div>
+      </div>
+      <div class="drawer-content">
+        <h2>Resultado da Viagem</h2>
+        <div class="summary-cards">
+          <div class="summary-card">
+            <span class="label">Custo Total</span>
+            <span class="value" id="res-total-cost">R$ 0,00</span>
+          </div>
+          <div class="summary-card">
+            <span class="label">Distância</span>
+            <span class="value" id="res-distance">0 km</span>
+          </div>
+        </div>
+
+        <div class="gps-actions hidden" id="gps-actions">
+          <h3>Abrir no GPS</h3>
+          <div class="gps-buttons">
+            <a id="btn-gmaps" href="#" target="_blank" class="btn-gps btn-gmaps">
+              <i class="fa-brands fa-google"></i> Google Maps
+            </a>
+            <a id="btn-waze" href="#" target="_blank" class="btn-gps btn-waze">
+              <i class="fa-brands fa-waze"></i> Waze
+            </a>
+          </div>
+        </div>
+        
+        <div class="route-details">
+          <h3>Rota Detalhada</h3>
+          <ul id="route-steps">
+            <!-- Populated by JS -->
+          </ul>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
