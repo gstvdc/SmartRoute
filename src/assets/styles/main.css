@@ -194,9 +194,20 @@ body.fullscreen-mode .drawer-notch {
   opacity: 1;
   background: var(--primary);
 }
+body:not(.fullscreen-mode) .left-drawer {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+body:not(.fullscreen-mode) .left-drawer:hover {
+  transform: none;
+  box-shadow: none;
+}
 
 /* --- LEFT DRAWER (Search) in FULLSCREEN --- */
 body.fullscreen-mode .left-drawer {
+  padding: 0;
   position: fixed;
   z-index: 10;
   top: 20px;

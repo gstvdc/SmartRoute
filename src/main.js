@@ -6,6 +6,36 @@ import capitaisData from './data/capitais.json';
 const graph = new Graph();
 let routeMap;
 
+const capitalStates = {
+  "Aracajú": "SE",
+  "Belém": "PA",
+  "Belo Horizonte": "MG",
+  "Boa Vista": "RR",
+  "Brasília": "DF",
+  "Campo Grande": "MS",
+  "Cuiabá": "MT",
+  "Curitiba": "PR",
+  "Florianópolis": "SC",
+  "Fortaleza": "CE",
+  "Goiânia": "GO",
+  "João Pessoa": "PB",
+  "Macapá": "AP",
+  "Maceió": "AL",
+  "Manaus": "AM",
+  "Natal": "RN",
+  "Palmas": "TO",
+  "Porto Alegre": "RS",
+  "Porto Velho": "RO",
+  "Recife": "PE",
+  "Rio Branco": "AC",
+  "Rio de Janeiro": "RJ",
+  "Salvador": "BA",
+  "São Luis": "MA",
+  "São Paulo": "SP",
+  "Teresina": "PI",
+  "Vitória": "ES"
+};
+
 window.showToast = (message, type = 'error') => {
   let container = document.getElementById('toast-container');
   if (!container) {
@@ -491,9 +521,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnWaze = document.getElementById('btn-waze');
     
     // Google Maps URL
-    let gmapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}`;
+    const getGmapsSearchQuery = (name) => {
+      const state = capitalStates[name];
+      return state ? `${name} - ${state}, Brasil` : `${name}, Brasil`;
+    };
+    
+    const originQuery = getGmapsSearchQuery(origin);
+    const destinationQuery = getGmapsSearchQuery(destination);
+    let gmapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(originQuery)}&destination=${encodeURIComponent(destinationQuery)}`;
     if (waypoint) {
-      gmapsUrl += `&waypoints=${encodeURIComponent(waypoint)}`;
+      const waypointQuery = getGmapsSearchQuery(waypoint);
+      gmapsUrl += `&waypoints=${encodeURIComponent(waypointQuery)}`;
     }
     btnGmaps.href = gmapsUrl;
 

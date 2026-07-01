@@ -79,6 +79,9 @@ export class RouteMap {
         // TOGGLE: Apply the target class
         document.body.classList.toggle('fullscreen-mode');
         
+        // Instantly invalidate size so Leaflet resizes and pans to correct center before we animate
+        this.map.invalidateSize({ pan: true, animate: false });
+        
         // Toggle icon and drawers
         if (!isFullscreen) { // Entering fullscreen
           btn.innerHTML = '<i class="fa-solid fa-compress"></i>';
