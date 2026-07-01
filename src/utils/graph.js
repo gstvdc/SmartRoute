@@ -89,7 +89,7 @@ export class Graph {
         if (!neighborData) continue; 
 
         const fuelCost = (edge.distance / autonomy) * fuelPrice;
-        const tollCost = (v === end) ? neighborData.toll : 0;
+        const tollCost = (v === end) ? 0 : neighborData.toll;
         const edgeCost = fuelCost + tollCost;
         
         const newTotalCost = current.cost + edgeCost;
