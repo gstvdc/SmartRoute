@@ -65,70 +65,54 @@ export class RouteMap {
         e.preventDefault();
         
         const mapEl = document.getElementById('map');
-        // FIRST: get the current dimensions
         const firstRect = mapEl.getBoundingClientRect();
         
         const isFullscreen = document.body.classList.contains('fullscreen-mode');
         
-        // Temporarily hide the drawers and results so they don't jump during animation
         const leftDrawer = document.getElementById('left-drawer');
         const bottomDrawer = document.getElementById('bottom-drawer');
         leftDrawer.style.transition = 'none';
         bottomDrawer.style.transition = 'none';
         
-        // TOGGLE: Apply the target class
         document.body.classList.toggle('fullscreen-mode');
         
-        // Instantly invalidate size so Leaflet resizes and pans to correct center before we animate
         this.map.invalidateSize({ pan: true, animate: false });
         
-        // Toggle icon and drawers
-        if (!isFullscreen) { // Entering fullscreen
+        if (!isFullscreen) { 
           btn.innerHTML = '<i class="fa-solid fa-compress"></i>';
           btn.title = 'Modo Clássico (Painéis)';
           
-          // Auto-close left drawer
           leftDrawer.classList.remove('open');
           leftDrawer.classList.add('closed');
-        } else { // Exiting fullscreen
+        } else { 
           btn.innerHTML = '<i class="fa-solid fa-expand"></i>';
           btn.title = 'Modo Dashboard (Tela Cheia)';
           
-          // Auto-open left drawer
           leftDrawer.classList.remove('closed');
           leftDrawer.classList.add('open');
         }
-
-        // LAST: get the new dimensions (it jumps instantly because of CSS)
         const lastRect = mapEl.getBoundingClientRect();
         
-        // INVERT: calculate how much we need to transform it back to the original size
         const deltaX = firstRect.left - lastRect.left;
         const deltaY = firstRect.top - lastRect.top;
         const deltaW = firstRect.width / lastRect.width;
         const deltaH = firstRect.height / lastRect.height;
-        
-        // Set transform origin and apply the inversion
         mapEl.style.transformOrigin = 'top left';
         mapEl.style.transition = 'none';
         mapEl.style.willChange = 'transform, border-radius';
         mapEl.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${deltaW}, ${deltaH})`;
         
-        // If expanding, invert border radius so it starts rounded
         if (!isFullscreen) mapEl.style.borderRadius = '20px';
         else mapEl.style.borderRadius = '0px';
 
-        // FORCE REFLOW so the browser registers the inverted state before animating
         void mapEl.offsetWidth;
 
-        // PLAY: Animate to the new state
         requestAnimationFrame(() => {
           mapEl.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
           mapEl.style.transform = 'translate(0, 0) scale(1, 1)';
           mapEl.style.borderRadius = isFullscreen ? '20px' : '0px';
           
           setTimeout(() => {
-            // Clean up
             mapEl.style.transition = '';
             mapEl.style.transform = '';
             mapEl.style.transformOrigin = '';
@@ -136,7 +120,7 @@ export class RouteMap {
             mapEl.style.borderRadius = '';
             leftDrawer.style.transition = '';
             bottomDrawer.style.transition = '';
-            this.map.invalidateSize(); // Fix map tiles after animation
+            this.map.invalidateSize();
           }, 600);
         });
       };
@@ -180,6 +164,7 @@ export class RouteMap {
   async drawRoute(pathNodes, origin, destination, waypoint) {
     if (this.currentRouteLine) {
       this.map.removeLayer(this.currentRouteLine);
+      this.currentRouteLine = null;
     }
 
     for (const marker of Object.values(this.markers)) {
@@ -231,5 +216,18 @@ export class RouteMap {
     }).addTo(this.map);
 
     this.map.fitBounds(this.currentRouteLine.getBounds(), { padding: [50, 50], maxZoom: 6 });
+  }
+
+  clearRoute() {
+    if (this.currentRouteLine) {
+      this.map.removeLayer(this.currentRouteLine);
+      this.currentRouteLine = null;
+    }
+
+    for (const marker of Object.values(this.markers)) {
+      marker.setIcon(this.getIcon('#fbbf24'));
+    }
+
+    this.hideLoading();
   }
 }

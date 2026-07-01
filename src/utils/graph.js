@@ -29,10 +29,6 @@ export class Graph {
     return Array.from(this.vertices.keys());
   }
 
-  /**
-   * Calculates the cheapest path between start and end.
-   * cost = (distance / autonomy) * fuelPrice + destination_toll
-   */
   dijkstra(start, end, fuelPrice, autonomy) {
     if (!this.vertices.has(start) || !this.vertices.has(end)) {
       return { success: false, error: 'Capital de origem ou destino não existe no grafo.' };
